@@ -13,6 +13,13 @@ import {
     petDeleteReducer
 } from './reducers/petReducer';
 
+import {
+    createWalkReducer,
+    getWalksByWalkerReducer,
+    updateWalkReducer,
+    deleteWalkReducer
+} from './reducers/walkReducer';
+
 const reducers = combineReducers({
     authUser: userLoginReducer,
     usersList: usersListReducer,
@@ -20,6 +27,11 @@ const reducers = combineReducers({
 
     petAdd: petAddReducer,
     petDelete: petDeleteReducer,
+
+    createWalk: createWalkReducer,
+    getWalksByWalker: getWalksByWalkerReducer,
+    updateWalk: updateWalkReducer,
+    deleteWalk: deleteWalkReducer
 });
 
 const userInfoFromStorage = localStorage.getItem('userInfo') 
