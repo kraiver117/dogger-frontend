@@ -9,7 +9,7 @@ import {
     PET_DELETE_SUCCESS 
 } from "../constants/petConstants";
 
-export const petAddReducer = (state= [], action) => {
+export const petAddReducer = (state= {}, action) => {
     switch (action.type) {
         case PET_CREATE_REQUEST:
             return {
@@ -36,7 +36,7 @@ export const petAddReducer = (state= [], action) => {
     }
 }
 
-export const petDeleteReducer = (state= [], action) => {
+export const petDeleteReducer = (state= {}, action) => {
     switch (action.type) {
         case PET_DELETE_REQUEST:
             return {
