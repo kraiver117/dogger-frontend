@@ -1,5 +1,5 @@
 import axios from 'axios';
 
 export const doggerAPI = axios.create({
-    baseURL: 'http://127.0.0.1:8000/api'
+    baseURL: 'https://dogger117-api.herokuapp.com/api'
 });
