@@ -55,10 +55,9 @@ export const UserDetails = ({ history, match}) => {
                                 <Col>
                                     <strong>Nombre de usuario:</strong><span> {userDetailsInfo.owner.username}</span> <br/>
                                     <strong>email:</strong> <span> {userDetailsInfo.owner.email}</span> <br />
-                                    <strong>Teléfono:</strong> <span> {userDetailsInfo.owner.phone_number}</span> <br />
+                                    <strong>Teléfono:</strong> <span> {userDetailsInfo.owner.phone_number ? userDetailsInfo.owner.phone_number : 'N/A'}</span> <br />
                                 </Col>
                                 <Col>
-                                    { userInfo?.user.id === userDetailsInfo?.owner.id && userInfo?.user.role !== 'Paseador' && <Link to={`/`} className='btn btn-primary d-block mb-4'>Editar perfil</Link>}
                                     { userInfo?.user.id === userDetailsInfo?.owner.id && userInfo?.user.role !== 'Paseador' && <Link to={`/addpet/user/${userDetailsInfo.owner.id}`} className='btn btn-primary d-block mb-4'>Agregar mascota</Link>}
                                     { userInfo?.user.id === userDetailsInfo?.owner.id && userInfo?.user.role !== 'Paseador' && <Link to={`/${userDetailsInfo.owner.id}`} className='btn btn-primary d-block mb-4'>Ver paseos</Link>}
                                 </Col>

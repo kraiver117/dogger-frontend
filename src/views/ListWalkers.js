@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { Loader } from '../components/Loader';
+import { Message } from '../components/Message';
+
 import { doggerAPI } from '../redux/api/doggerAPI';
 
 export const ListWalkers = ({ history }) => {
@@ -46,7 +48,7 @@ export const ListWalkers = ({ history }) => {
                                     <strong>Email:</strong> {user.email}
                                 </Card.Text>
                                 <Card.Text>
-                                    <strong>Teléfono:</strong> {user.phone_number}
+                                    <strong>Teléfono:</strong> {user.phone_number ? user.phone_number : 'N/A'}
                                 </Card.Text>
                                 <Card.Text>
                                     <strong>Paseos activos:</strong> {user.current_walks}
@@ -60,6 +62,7 @@ export const ListWalkers = ({ history }) => {
                 ))
             }
             </Row>
+            { walkers?.length === 0 && <Message variant='info'>No existen paseadores registrados</Message>}
         </Container>
     );
 }

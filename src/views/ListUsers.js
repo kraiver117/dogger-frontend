@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { Loader } from '../components/Loader';
+import { Message } from '../components/Message';
 
 import { usersList } from '../redux/actions/userActions';
 
@@ -39,7 +40,7 @@ export const ListUsers = ({ history }) => {
                                     Email: {user.email}
                                 </Card.Text>
                                 <Card.Text>
-                                    Teléfono: {user.phone_number}
+                                    Teléfono: {user.phone_number ? user.phone_number : 'N/A'}
                                 </Card.Text>
                                 <Link to={`/user/${user.id}/details`} className='btn btn-primary w-100' variant="primary">
                                     Ver detalles
@@ -50,6 +51,7 @@ export const ListUsers = ({ history }) => {
                 ))
             }
             </Row>
+            { users?.length === 0 && <Message variant='info'>No existen dueños registrados</Message>}
         </Container>
     );
 }

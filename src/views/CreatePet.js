@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { addPet } from '../redux/actions/petActions';
 import { PET_CREATE_RESET } from '../redux/constants/petConstants';
 
-export const AddPet = ({ match, history}) => {
+export const CreatePet = ({ match, history}) => {
     const id = match.params.id;
 
     const [name, setName] = useState('');
@@ -31,7 +31,7 @@ export const AddPet = ({ match, history}) => {
             user: id,
             name,
             size,
-            photo: "",
+            photo: null,
             extra_info
         }));
     }
@@ -65,6 +65,7 @@ export const AddPet = ({ match, history}) => {
                         value={size}
                         onChange={(e) => setSize(e.target.value)}
                     >
+                        <option value='Grande'>Selecciona un tamaño de mascota:</option>
                         <option value='Grande'>Grande</option>
                         <option value='Mediano'>Mediano</option>
                         <option value='Pequeño'>Pequeño</option>

@@ -1,58 +1,59 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Container, Row, Col, Image } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { Loader } from '../components/Loader';
 import { Message } from '../components/Message';
-import { doggerAPI } from '../redux/api/doggerAPI';
 import { WalkCard } from '../components/WalkCard';
+import { deleteWalk, getWalksByWalker, updateWalk } from '../redux/actions/walkActions';
+import { WALK_DELETE_RESET, WALK_UPDATE_RESET } from '../redux/constants/walkConstants';
 
 export const WalkerDetails = ({ history, match}) => {
     const walkerId = match.params.id;
 
-    const [walker, setWalker] = useState({});
-    const [walks, setWalks] = useState([]);
-    const [loading, setLoding] = useState(false);
-
+    const dispatch = useDispatch();
 
     const userLogged = useSelector(state => state.authUser);
     const { userInfo } = userLogged;
+
+    const updateWalkState = useSelector(state => state.updateWalk);
+    const { success: updateWalkSuccess } = updateWalkState;
+
+    const deleteWalkState = useSelector(state => state.deleteWalk);
+    const { success: deleteWalkSuccess } = deleteWalkState;
+
+    const getWalksByWalkerState = useSelector(state => state.getWalksByWalker);
+    const { walker, walks, loading } = getWalksByWalkerState;
     
     useEffect(() => {
         if (!userInfo) {
             history.push('/login');
         } else {
-            setLoding(true);
 
-            doggerAPI.get(`walks/walker/${walkerId}`)
-                .then((response) => {
-                    setWalker(response.data.data.walker);
-                    setWalks(response.data.data.walks);
-                    setLoding(false);
-                })
+            if (updateWalkSuccess) {
+                dispatch({ type: WALK_UPDATE_RESET });
+            }
+
+            if (deleteWalkSuccess) {
+                dispatch({ type: WALK_DELETE_RESET });
+            }
+
+            dispatch(getWalksByWalker(walkerId));
+
         }
-    }, [ userInfo, walkerId, history]);
+    }, [history, dispatch, userInfo, walkerId, updateWalkSuccess, deleteWalkSuccess]);
     
     const acceptedWalkHandler = (walkId) => {
-        doggerAPI.put(`walks/${walkId}`, { is_accepted: true })
-            .then((response) => {
-                alert('Paseo aceptado')
-            })
+        dispatch(updateWalk(walkId, { is_accepted: true }));
     }
 
     const finishWalkHandler = (walkId) => {
-        doggerAPI.put(`walks/${walkId}`, { is_finished: true })
-        .then((response) => {
-            alert('Paseo Terminado')
-        })
+        dispatch(updateWalk(walkId, { is_finished: true }));
     }
 
     const deleteWalkHandler = (walkId) => {
-        doggerAPI.delete(`walks/${walkId}`)
-        .then((response) => {
-            alert('Paseo borrado');
-        })
+        dispatch(deleteWalk(walkId));
     }
     
     return (
@@ -68,11 +69,10 @@ export const WalkerDetails = ({ history, match}) => {
                                 <Col>
                                     <strong>Nombre de usuario:</strong><span> {walker.username}</span> <br/>
                                     <strong>email:</strong> <span> {walker.email}</span> <br />
-                                    <strong>Teléfono:</strong> <span> {walker.phone_number}</span> <br />
+                                    <strong>Teléfono:</strong> <span> {walker.phone_number ? walker.phone_number : 'N/A'}</span> <br />
                                 </Col>
                                 <Col>
                                     {userInfo?.user.role === 'Dueño' && <Link to={`/addwalk/walker/${walker.id}`} className='btn btn-primary d-block mb-4'>Solicitar Paseo</Link>}
-                                    { userInfo?.user.id === walker.user_id && <Link to={`/`} className='btn btn-primary d-block mb-4'>Editar perfil</Link>}
                                 </Col>
                             </Row>
                             <h3 className='text-center'>Solicitudes de paseo</h3>
