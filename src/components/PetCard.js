@@ -13,8 +13,7 @@ export const PetCard = ({pet, userLogged, userOwnerId, petDeleteHandler}) => {
                 <Card.Text>
                     <strong>Información especial: </strong> {pet.extra_info ? pet.extra_info : 'Ninguna'}
                 </Card.Text>
-                { userLogged?.id === userOwnerId && userLogged?.role !== 'Paseador' && <Button className='w-50' onClick={() => petDeleteHandler(pet.id)}>Update</Button>}
-                { userLogged?.id === userOwnerId && userLogged?.role !== 'Paseador' && <Button className='w-50' variant='danger' onClick={() => petDeleteHandler(pet.id)}>Delete</Button>}
+                { userLogged?.id === userOwnerId && userLogged?.role !== 'Paseador' && <Button className='w-100' variant='danger' onClick={() => petDeleteHandler(pet.id)}>Delete</Button>}
             </Card.Body>
         </Card>
     );
